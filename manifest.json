@@ -1,0 +1,35 @@
+
+{
+  "manifest_version": 3,
+  "name": "MeetingM8",
+  "version": "1.0",
+  "description": "Your extension description here.",
+  "icons": {
+    "48": "logo.png"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["floatingIcon.js"],
+      "css": ["floatingIcon.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["logo2.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

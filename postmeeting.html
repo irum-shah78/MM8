@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <img class="logo" src="logo.png" alt="Company Logo">
+    <div id="Button_Select_Section">
+        <button class="Meetingbtn" id="Premeeting">Pre-Meeting</button>
+        <button class="Meetingbtn" id="Postmeeting">Post-Meeting</button>      
+    </div>
+    
+    <hr width="100%" color="white" >
+    <h1 class="heading_title">Zoom Recording URL</h1>
+    <input name="" id="zoominput" placeholder="Enter Your Zoom Meeting URL" cols="55" rows="10"/>
+    <div id="btn1">
+      <button class="btn1" id="getDetailsButton2">Summarize Meeting</button>
+    </div>
+    <div class="loading-spinner">
+      <img width="80px" src="https://i.gifer.com/ZKZg.gif" alt="Loading" /> 
+    </div>
+    <div id="results"></div>
+    
+    <button id="close-button">X</button>
+
+  </div>
+  <script src="PremeetingOnClick.js"></script>
+  <script src="jquery.js"></script>
+  <script src="postmeeting_java.js"></script>
+  <script src="PostmeetingOnClick.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+.container {
+    background-color: black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 45rem;
+    align-items: flex-start;
+  }
+  
+  .logo {
+    width: 130px;
+    margin-bottom: 20px;
+  }
+  
+  .heading_title {
+    color: white;
+    margin: 5px 0;
+  }
+  
+  input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid white;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+  
+  input[type="email"] {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid white;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+  
+  .btn1 {
+    background-color: white;
+    color: #fc3284;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    position: relative;
+    margin: 5px 0;
+    cursor: pointer;
+  }
+  
+  #btn1 {
+    text-align: right; 
+    width: 95%;
+  }
+  
+  #getProfilesButton {
+    width: 150px;
+  }
+  
+  .Meetingbtn {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .Meetingbtn:focus {
+    background-color: white;
+    color: black;
+  }
+  
+  .Meetingbtn:active {
+    opacity: 0.6;
+  }
+  #Textarea{
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
