@@ -6,14 +6,14 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
-const client = new OAuth2Client("318284004518-e0s0ap20bsee6lm9qc4dfnphq8pcsnbq.apps.googleusercontent.com");
+const client = new OAuth2Client("");
 
 const bigquery = new BigQuery();
 
 async function verifyToken(token) {
   const ticket = await client.verifyIdToken({
     idToken: token,
-    audience: "318284004518-e0s0ap20bsee6lm9qc4dfnphq8pcsnbq.apps.googleusercontent.com", 
+    audience: "", 
   });
   return ticket.getPayload();
 }
