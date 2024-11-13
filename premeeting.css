@@ -4,8 +4,8 @@
 .container {
   background-color: black;
   padding: 15px 20px;
-  width: 500px;
-  height: 45rem;
+  width: 450px;
+  height: 40rem;
   display: flex;
   flex-direction: column;
 }

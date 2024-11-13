@@ -7,11 +7,16 @@
   "icons": {
     "48": "logo.png"
   },
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "storage"
-  ],
+  "permissions": ["identity", "identity.email", "storage", "scripting", "activeTab"],
+  "oauth2": {
+    "client_id": "318284004518-e0s0ap20bsee6lm9qc4dfnphq8pcsnbq.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar.readonly",
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  },
+  "host_permissions": ["https://api.openai.com/*"],
   "background": {
     "service_worker": "background.js"
   },
