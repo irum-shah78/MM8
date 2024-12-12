@@ -116,151 +116,35 @@ $(document).ready(function () {
   //   }
   // });
 
+  const headers = {
+    Authorization:
+      "Bearer ",
+    "OpenAI-Beta": "assistants=v1",
+    "Content-Type": "application/json",
+  };
 
-  
-  // Implemented APIs
-  // console.log("jQuery loaded");
-  // const headers = {
-  //   Authorization:
-  //     "Bearer (key here)",
-  //   "OpenAI-Beta": "assistants=v2",
-  //   "Content-Type": "application/json",
-  // };
+  let threadId = "thread_iOe5l3xijw5fZ2yfGKGFOrP6";
 
-  // let threadId = null;
-
-  // function createThread() {
-  //   return fetch("https://api.openai.com/v1/threads", {
-  //     method: "POST",
-  //     headers: headers,
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Thread created:", data);
-  //       threadId = data.id;
-  //     })
-  //     .catch((error) => console.error("Error creating thread:", error));
-  // }
-
-  // function sendMessageToBot(userMessage) {
-  //   if (!threadId) {
-  //     console.log("No thread found, creating one...");
-  //     return createThread().then(() => addMessageToThread(userMessage));
-  //   } else {
-  //     return addMessageToThread(userMessage);
-  //   }
-  // }
-
-  // function addMessageToThread(userMessage) {
-  //   return fetch(`https://api.openai.com/v1/threads/${threadId}/messages`, {
-  //     method: "POST",
-  //     headers: headers,
-  //     body: JSON.stringify({
-  //       role: "user",
-  //       content: userMessage,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Full bot response data:", JSON.stringify(data, null, 2));
-
-  //       // const messageContent = data.content || data.choices?.[0]?.message?.content;
-  //       const messageContent = data.content[0]?.text?.value;
-
-  //       if (messageContent) {
-  //         return messageContent;
-  //       } else {
-  //         console.log("Unexpected response structure:", data);
-  //         return "Oops, something went wrong!";
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error sending message to thread:", error);
-  //       return "Something went wrong!";
-  //     });
-  // }
-
-  // function sendMessage() {
-  //   const userMessage = $("#user-input").val().trim();
-
-  //   if (userMessage) {
-  //     console.log("User message:", userMessage);
-  //     $("#chat-box").append(`
-  //           <div class="message user">
-  //             <span class="text">${userMessage}</span>
-  //           </div>
-  //         `);
-  //     $("#user-input").val("");
-
-  //     const loadingMessageElement = $(`
-  //           <div class="message bot" id="loading-message">
-  //             <div class="profile-icon">
-  //               <img src="/logo2.png" alt="Profile Icon">
-  //             </div>
-  //             <span class="text">On it...</span>
-  //           </div>
-  //         `);
-
-  //     $("#chat-box").append(loadingMessageElement);
-  //     $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
-
-  //     sendMessageToBot(userMessage).then((data) => {
-  //       loadingMessageElement.remove();
-
-  //       if (data && data.message && data.message.content) {
-  //         $("#chat-box").append(`
-  //             <div class="message bot">
-  //               <div class="profile-icon">
-  //                 <img src="/logo2.png" alt="Profile Icon">
-  //               </div>
-  //               <span class="text">${data.message.content}</span>
-  //             </div>
-  //           `);
-  //       } else {
-  //         $("#chat-box").append(`
-  //             <div class="message bot">
-  //               <div class="profile-icon">
-  //                 <img src="/logo2.png" alt="Profile Icon">
-  //               </div>
-  //               <span class="text">Something went wrong!</span>
-  //             </div>
-  //           `);
-  //       }
-
-  //       $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
-  //     });
-  //   } else {
-  //     console.log("Empty input, message not sent.");
-  //   }
-  // }
-
-  // // Event listeners
-  // $("#send-button").click(function () {
-  //   console.log("Send button clicked");
-  //   sendMessage();
-  // });
-
-  // $("#user-input").keypress(function (e) {
-  //   if (e.which === 13) {
-  //     console.log("Enter key pressed");
-  //     sendMessage();
-  //     e.preventDefault();
-  //   }
-  // });
-
-  // const headers = {
-  //   Authorization:
-  //     "Bearer (key here)",
-  //   "OpenAI-Beta": "assistants=v2",
-  //   "Content-Type": "application/json",
-  // };
-
-  let threadId = null;
+  async function initializeThread() {
+    if (!threadId) {
+      try {
+        console.log("Creating thread...");
+        await createThread();
+        console.log("Thread created. Creating run...");
+        await createRun();
+      } catch (error) {
+        console.error("Error initializing thread:", error);
+      }
+    }
+  }
 
   function createThread() {
     return fetch("https://api.openai.com/v1/threads", {
       method: "POST",
       headers: headers,
+      body: JSON.stringify({
+        assistant_id: "asst_jVpiMxxUfg7U727cLouaDI7E",
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -269,80 +153,182 @@ $(document).ready(function () {
       })
       .catch((error) => console.error("Error creating thread:", error));
   }
+  console.log("first one", assistant_id )
 
-  function addMessageToThread(userMessage) {
-    return fetch(`https://api.openai.com/v1/threads/${threadId}/messages`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        role: "user",
-        content: userMessage,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Full bot response data:", JSON.stringify(data, null, 2));
-        const assistantMessage =
-          data.choices?.[0]?.message?.content?.text?.value ||
-          data.assistant_message?.content?.text?.value;
+  async function waitForRunCompletion() {
+    let isRunComplete = false;
+    let retries = 0;
+    const maxRetries = 30;
 
-        if (assistantMessage) {
-          return assistantMessage;
-        } else {
-          console.log("No assistant message found in response:", data);
-          return "Something went wrong!";
+    while (!isRunComplete && retries < maxRetries) {
+      retries++;
+      const runStatus = await getRunStatus();
+      if (runStatus && runStatus.data?.[0]?.status !== "active") {
+        isRunComplete = true;
+        console.log("Run completed.");
+      } else {
+        console.log(`Run still active, waiting... (${retries})`);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+    }
+
+    if (!isRunComplete) {
+      throw new Error("Run did not complete within the allowed time.");
+    }
+  }
+
+  async function addMessageToThread(userMessage) {
+    try {
+      await initializeThread();
+
+      console.log("Checking run status...");
+      await waitForRunCompletion();
+
+      const response = await fetch(
+        `https://api.openai.com/v1/threads/${threadId}/messages`,
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({
+            role: "user",
+            content: userMessage,
+          }),
         }
-      })
-      .catch((error) => {
-        console.error("Error sending message to thread:", error);
-        return "Something went wrong!";
-      });
+      );
+
+      const data = await response.json();
+      console.log("Full API response:", JSON.stringify(data, null, 2));
+
+      const assistantMessage =
+        data.choices?.[0]?.message?.content ||
+        data.assistant_message?.content?.text?.value;
+
+      if (assistantMessage) {
+        return assistantMessage;
+      } else {
+        console.log("No assistant message found in response:", data);
+        return "The assistant did not provide a response. Please try again later.";
+      }
+    } catch (error) {
+      console.error("Error sending message to thread:", error);
+      return "Something went wrong while processing your request.";
+    }
   }
 
   function createRun() {
     if (!threadId) return console.error("No thread ID found");
 
+    const payload = {
+      assistant_id: "asst_jVpiMxxUfg7U727cLouaDI7E",
+    };
+    console.log("first one ",payload.assistant_id);
+
+    console.log("Payload for createRun:", payload);
+
     return fetch(`https://api.openai.com/v1/threads/${threadId}/runs`, {
       method: "POST",
       headers: headers,
+      body: JSON.stringify(payload),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((data) => {
+            console.error("Error creating run:", data);
+            throw new Error(data.error?.message || "Failed to create run");
+          });
+        }
+        return response.json();
+      })
       .then((data) => console.log("Run created:", data))
       .catch((error) => console.error("Error creating run:", error));
   }
 
-  function getRunStatus() {
-    if (!threadId) return console.error("No thread ID found");
+  async function getRunStatus() {
+    try {
+      const response = await fetch(
+        `https://api.openai.com/v1/threads/${threadId}/runs`,
+        {
+          method: "GET",
+          headers: headers,
+        }
+      );
 
-    return fetch(`https://api.openai.com/v1/threads/${threadId}/runs`, {
-      method: "GET",
-      headers: headers,
-    })
-      .then((response) => response.json())
-      .then((data) => console.log("Run status:", data))
-      .catch((error) => console.error("Error fetching run status:", error));
-  }
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error?.message || "Failed to fetch run status");
+      }
 
-  function getMessages() {
-    if (!threadId) return console.error("No thread ID found");
-
-    return fetch(`https://api.openai.com/v1/threads/${threadId}/messages`, {
-      method: "GET",
-      headers: headers,
-    })
-      .then((response) => response.json())
-      .then((data) => console.log("Messages:", data))
-      .catch((error) => console.error("Error fetching messages:", error));
-  }
-
-  function sendMessageToBot(userMessage) {
-    if (!threadId) {
-      console.log("No thread found, creating one...");
-      return createThread().then(() => addMessageToThread(userMessage));
-    } else {
-      return addMessageToThread(userMessage);
+      console.log("Run status:", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching run status:", error);
+      return null;
     }
   }
+
+  getRunStatus().then((data) => console.log("Run status:", data));
+
+  async function getMessages() {
+    if (!threadId) {
+      console.error("No thread ID found");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.openai.com/v1/threads/${threadId}/messages`,
+        {
+          method: "GET",
+          headers: headers,
+        }
+      );
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(`Error fetching messages: ${data.error?.message}`);
+      }
+      const data = await response.json();
+      console.log("Messages:", data);
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  getMessages().then((data) => console.log("Messages:", data));
+
+  async function sendMessageToBot(userMessage) {
+    try {
+      await initializeThread();
+      const response = await addMessageToThread(userMessage);
+      return response;
+    } catch (error) {
+      console.error("Error sending message to bot:", error);
+      return "Something went wrong!";
+    }
+  }
+
+  // async function sendMessageToBot(userMessage) {
+  //   try {
+  //     await initializeThread();
+
+  //     const runStatus = await getRunStatus();
+  //     if (runStatus && runStatus.data && runStatus.data.length > 0) {
+  //       const runData = runStatus.data[0];
+  //       if (runData.status === "active") {
+  //         console.log(
+  //           "Run is still active. Please wait until it completes before sending a message."
+  //         );
+  //         return;
+  //       }
+  //     }
+
+  //     const response = await addMessageToThread(userMessage);
+  //     return response;
+  //   } catch (error) {
+  //     console.error("Error sending message to bot:", error);
+  //     return "Something went wrong!";
+  //   }
+  // }
 
   function sendMessage() {
     const userMessage = $("#user-input").val().trim();
@@ -355,7 +341,7 @@ $(document).ready(function () {
 
       const loadingMessageElement =
         $(`<div class="message bot" id="loading-message">
-        <div class="profile-icon"><img src="/logo2.png" alt="Profile Icon"></div><span class="text">On it...</span></div>`);
+        <div class="profile-icon"><img src="/frontend/assets/logo2.png" alt="Profile Icon"></div><span class="text">On it...</span></div>`);
 
       $("#chat-box").append(loadingMessageElement);
       $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
@@ -363,7 +349,7 @@ $(document).ready(function () {
       sendMessageToBot(userMessage).then((response) => {
         loadingMessageElement.remove();
         $("#chat-box")
-          .append(`<div class="message bot"><div class="profile-icon"><img src="/logo2.png" alt="Profile Icon"></div>
+          .append(`<div class="message bot"><div class="profile-icon"><img src="/frontend/assets/logo2.png" alt="Profile Icon"></div>
           <span class="text">${
             response || "Something went wrong!"
           }</span></div>`);
@@ -373,11 +359,26 @@ $(document).ready(function () {
     }
   }
 
-  // Event listeners
   $("#send-button").click(sendMessage);
   $("#user-input").keypress(function (e) {
     if (e.which === 13) sendMessage();
   });
+
+  // function to save user into db
+  function saveUserToBigQuery(token) {
+    $.ajax({
+      url: "http://localhost:3000/login",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ token }),
+      success: function (response) {
+        console.log("User successfully stored in BigQuery:", response);
+      },
+      error: function (error) {
+        console.error("Error storing user in BigQuery:", error);
+      },
+    });
+  }
 
   // Calendar Details
   let tokenClient;
@@ -395,8 +396,40 @@ $(document).ready(function () {
     fetchCalendarEventDetails();
   }
 
+  if (!accessToken || !userEmail) {
+    console.log("No stored login. Please log in.");
+
+    if (!tokenClient) {
+      console.error("Token client not initialized. Initializing now...");
+      initializeGoogleServices();
+    }
+
+    if (tokenClient) {
+      tokenClient.requestAccessToken({
+        prompt: "consent",
+        callback: (response) => {
+          if (response.error) {
+            console.error("Error during token request:", response.error);
+            return;
+          }
+
+          accessToken = response.access_token;
+          localStorage.setItem("accessToken", accessToken);
+
+          saveUserToBigQuery(response.id_token);
+          fetchCalendarEventDetails();
+        },
+      });
+    } else {
+      console.error("Failed to initialize token client.");
+    }
+  } else {
+    console.log("User already logged in:", userEmail);
+    fetchCalendarEventDetails();
+  }
+
   $(document).ready(function () {
-    initializeGoogleServices();
+    // initializeGoogleServices();
 
     $("#get-calendar-button").on("click", function () {
       if (accessToken) {
@@ -410,8 +443,8 @@ $(document).ready(function () {
   function initializeGoogleServices() {
     if (typeof google !== "undefined" && google.accounts) {
       tokenClient = google.accounts.oauth2.initTokenClient({
-        // client_id:
-        //   "",
+        client_id:
+          "client id here",
         scope: "https://www.googleapis.com/auth/calendar.readonly",
         access_type: "offline",
         prompt: "consent",
@@ -500,9 +533,9 @@ $(document).ready(function () {
       type: "POST",
       contentType: "application/x-www-form-urlencoded",
       data: {
-        // client_id:
-        //   "",
-        // client_secret: "",
+        client_id:
+          "client id here",
+        client_secret: "client secret here",
         refresh_token: refreshToken,
         grant_type: "refresh_token",
       },
@@ -563,7 +596,7 @@ $(document).ready(function () {
     const botResponse = `
     <div class="message bot">
       <div class="profile-icon" style="flex-shrink: 0; margin-right: 10px;">
-        <img src="/logo2.png" alt="Profile Icon" style="width: 40px; height: 40px; border-radius: 50%;">
+        <img src="/frontend/assets/logo2.png" alt="Profile Icon" style="width: 40px; height: 40px; border-radius: 50%;">
       </div>
       <div class="text" style="flex-grow: 1; max-width: calc(100% - 60px); word-wrap: break-word;">
         You are meeting with <strong>${company}</strong>, the title of the meeting is <strong>${title}</strong>, and the purpose is to <strong>${description}</strong>. <strong>${attendees}</strong> will be attending.

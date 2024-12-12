@@ -9,7 +9,7 @@
   },
   "permissions": ["identity", "identity.email", "storage", "scripting", "activeTab"],
   "oauth2": {
-    "client_id": "318284004518-e0s0ap20bsee6lm9qc4dfnphq8pcsnbq.apps.googleusercontent.com",
+    "client_id": "142793697377-0gi035mcqj8544ln5ovrq47hq05rl1hb.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar.readonly",
       "https://www.googleapis.com/auth/userinfo.profile",

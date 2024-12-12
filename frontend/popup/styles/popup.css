@@ -148,8 +148,10 @@ input[type="email"] {
 .container {
   background-color: black;
   padding: 15px 20px;
-  width: 450px;
-  height: 40rem;
+  /* width: 450px;
+  height: 40rem; */
+  width: 400px;
+  height: 45rem;
   display: flex;
   flex-direction: column;
 }
